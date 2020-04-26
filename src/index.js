@@ -2,14 +2,35 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import axios from 'axios';
+import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { Provider } from 'react-redux';
 import { store } from './store/config';
 import './styles.css';
 
+if (localStorage.getItem('token')) {
+  axios.defaults.headers.common.Authorization = `Bearer ${localStorage.getItem(
+    'token'
+  )}`;
+}
+
+const newTheme = createMuiTheme({
+  palette: {
+    primary: {
+      main: '#4482C3',
+    },
+    secondary: {
+      main: '#F57C00',
+    },
+  },
+});
+
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <ThemeProvider theme={newTheme}>
+        <App />
+      </ThemeProvider>
     </Provider>
   </React.StrictMode>,
   document.getElementById('root')

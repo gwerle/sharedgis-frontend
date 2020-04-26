@@ -1,6 +1,6 @@
 import * as TYPES from './actionTypes';
 
-export const setLogin = (login) => ({
-  type: TYPES.SET_LOGIN,
-  payload: login,
+export const createUserSession = (user) => ({
+  type: TYPES.CREATE_USER_SESSION,
+  payload: { user },
 });

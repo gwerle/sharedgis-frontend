@@ -3,7 +3,7 @@ import { isAuthenticated } from './auth';
 
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 
-import Login from './components/Login/Login';
+import LoginContainer from './containers/LoginContainer';
 import Dashboard from './components/Dashboard/Dashboard';
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
@@ -22,7 +22,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
 const Routes = () => (
   <BrowserRouter>
     <Switch>
-      <Route exact path="/" component={() => <Login />} />
+      <Route exact path="/" component={() => <LoginContainer />} />
       <PrivateRoute path="/dashboard" component={() => <Dashboard />} />
     </Switch>
   </BrowserRouter>
