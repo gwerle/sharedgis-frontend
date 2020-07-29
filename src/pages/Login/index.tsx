@@ -1,6 +1,7 @@
 import React from 'react';
 import { TextField, Button, Link } from '@material-ui/core';
-import { ContainerLogin, BorderedDiv, LeftDiv, RightDiv } from './styles';
+import { ContainerLogin, BorderedDiv } from '../Common/styles';
+import { LeftDiv, RightDiv } from './styles';
 
 const Login: React.FC = () => {
   return (
@@ -42,9 +43,12 @@ const Login: React.FC = () => {
             </div>
           </div>
           <div style={{ fontSize: '14px', color: 'rgb(0,0,0, 0.8)' }}>
-            Ainda não é cadastrado?{' '}
+            Ainda não é cadastrado?
             <span>
-              <Link style={{ fontWeight: 'bold' }} href="#">
+              <Link
+                style={{ fontWeight: 'bold', paddingLeft: '5px' }}
+                href="/create-account"
+              >
                 Criar Conta
               </Link>
             </span>
