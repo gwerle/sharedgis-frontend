@@ -6,6 +6,7 @@ import api from '../../services/api';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from '../../store';
 import { showSnackbar } from '../../store/modules/Snackbar/actions';
+import Cookies from 'js-cookie';
 
 const Login: React.FC = () => {
   const [emailField, setEmailField] = useState('');
@@ -18,8 +19,8 @@ const Login: React.FC = () => {
       .post('/sessions', { email: emailField, password: passwordField })
       .then(response => {
         if (response.status === 200) {
-          localStorage.setItem('token', response.data.token);
-          history.push('/dashboard');
+          Cookies.set('token', response.data.token, { expires: 1 });
+          return history.push('/dashboard');
         }
       })
       .catch(errorStr => {
