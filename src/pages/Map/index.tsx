@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   MapContainer,
   TileLayer,
@@ -7,16 +7,25 @@ import {
   useMapEvents,
 } from 'react-leaflet';
 import RoomIcon from '@material-ui/icons/Room';
+import api from '../../services/api';
 
 const position = [51.505, -0.09];
 
 function LocationMarkers({ markers, setMarkers }: any) {
-  const map = useMapEvents({
+  const [, , mapId] = window.location.pathname.split('/');
+
+  useMapEvents({
     click(e) {
       const currMarkers = markers;
       const withNewMarker = currMarkers.concat(e.latlng);
+      api.post('/accessibility-ramps', {
+        map_id: mapId,
+        haveVisionNotification: false,
+        inclination: 'HIGH',
+        lat: e.latlng.lat,
+        long: e.latlng.lng,
+      });
       setMarkers(withNewMarker);
-      map.locate();
     },
   });
 
@@ -25,28 +34,42 @@ function LocationMarkers({ markers, setMarkers }: any) {
 
 export default function Map() {
   const [isAddPointOptionEnabled, setAddPointOptionEnabled] = useState(false);
-  const [markers, setMarkers] = useState([]) as any;
+  const [markers, setMarkers] = useState([]);
 
   const toggleAddPointOption = () => {
     setAddPointOptionEnabled(!isAddPointOptionEnabled);
   };
 
+  useEffect(() => {
+    const [, , map_id] = window.location.pathname.split('/');
+    api
+      .get('/accessibility-ramps', {
+        params: { map_id },
+      })
+      .then(response => {
+        setMarkers(response.data);
+      });
+  }, []);
+
+  const forceToggleClassName = (e: any) => {
+    if (isAddPointOptionEnabled) {
+      e.target.classList.add('leaflet-crosshair');
+    } else {
+      e.target.classList.remove('leaflet-crosshair');
+    }
+  };
+
   return (
-    <div>
-      <div className="leaflet-container ">
-        <MapContainer
-          style={{ cursor: 'crosshair' }}
-          center={position as any}
-          zoom={13}
-          scrollWheelZoom={false}
-        >
+    <div style={{ cursor: 'crosshair' }}>
+      <div onPointerEnter={forceToggleClassName} className="leaflet-container">
+        <MapContainer center={position as any} zoom={13}>
           {isAddPointOptionEnabled && (
             <LocationMarkers markers={markers} setMarkers={setMarkers} />
           )}
           {markers.map((marker: any) => {
             return (
               <Marker position={marker}>
-                <Popup>Você clicou aqui</Popup>
+                <Popup>{marker.id || null}</Popup>
               </Marker>
             );
           })}
@@ -54,11 +77,6 @@ export default function Map() {
             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
-          <Marker position={position as any}>
-            <Popup>
-              A pretty CSS3 popup. <br /> Easily customizable.
-            </Popup>
-          </Marker>
         </MapContainer>
       </div>
       <div className="leaflet-right leaflet-top">
