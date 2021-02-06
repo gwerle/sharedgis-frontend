@@ -28,6 +28,11 @@ export const mapLayers = [
     geomType: 'point',
   },
   {
+    id: 'bike-support-points',
+    label: 'Ponto de apoio ao ciclista',
+    geomType: 'point',
+  },
+  {
     id: 'taxi-stops',
     label: 'Parada de Táxi',
     geomType: 'point',
@@ -80,4 +85,37 @@ export const roadConditionOptions = [
   { id: 'GOOD', label: 'Bom' },
   { id: 'INTERMEDIATE', label: 'Intermediário' },
   { id: 'HORRIBLE', label: 'Horrível' },
+];
+
+export const surfaceSituationOptions = [
+  { id: 'EXCELENT', label: 'Excelente' },
+  { id: 'GOOD', label: 'Bom' },
+  { id: 'INTERMEDIATE', label: 'Intermediário' },
+  { id: 'BAD', label: 'Ruim' },
+  { id: 'VERY_BAD', label: 'Muito Ruim' },
+  { id: 'HORRIBLE', label: 'Horrível' },
+  { id: 'VERY_HORRIBLE', label: 'Muito Horrível' },
+  { id: 'IMPASSABLE', label: 'Não trafegável' },
+];
+
+export const bicyclePathOptions = [
+  { id: 'CICLOVIA', label: 'Ciclovia' },
+  { id: 'CICLORROTA', label: 'Ciclorrota' },
+  { id: 'CICLOFAIXA', label: 'Ciclofaixa' },
+  { id: 'COMPARTILHADA', label: 'Via compartilhada com pedestres' },
+];
+
+export const goodMediumBadOptions = [
+  { id: 'GOOD', label: 'Bom' },
+  { id: 'MEDIUM', label: 'Médio' },
+  { id: 'BAD', label: 'Ruim' },
+];
+
+export const surfaceOptions = [
+  { id: 'ASPHALT', label: 'Asfalto' },
+  { id: 'CONCRETE', label: 'Concreto' },
+  { id: 'SETT', label: 'Paralelepípedo' },
+  { id: 'COMPACTED', label: 'Cascalho' },
+  { id: 'GROUND', label: 'Chão batido' },
+  { id: 'GRASS', label: 'Grama' },
 ];

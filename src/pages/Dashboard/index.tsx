@@ -4,7 +4,7 @@ import MapCard from '../Common/MapCard';
 import api from '../../services/api';
 import { useDispatch } from '../../store';
 import { showSnackbar } from '../../store/modules/Snackbar/actions';
-import { DEFAULT_ERROR_MESSAGE } from '../../config/constaints';
+import { DEFAULT_ERROR_MESSAGE } from '../../config/constants';
 import { Map } from '../../interfaces';
 
 const Dashboard: React.FC = () => {
