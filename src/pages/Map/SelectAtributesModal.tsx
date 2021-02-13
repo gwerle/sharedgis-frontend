@@ -34,6 +34,8 @@ interface SelectAtributesModalProps {
   setFormValues(formValues: any): void;
   mapLayer: string;
   setMapLayer(mapLayer: string): void;
+  spacialFeatureType: 'point' | 'line';
+  handleCloseAtributesModal(): void;
 }
 
 export default function SelectAtributesModal({
@@ -44,13 +46,11 @@ export default function SelectAtributesModal({
   setFormValues,
   mapLayer,
   setMapLayer,
+  spacialFeatureType,
+  handleCloseAtributesModal,
 }: SelectAtributesModalProps) {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
-
-  const handleClose = () => {
-    setOpen(false);
-  };
 
   const handleChangeSelect = (event: React.ChangeEvent<{ value: unknown }>) => {
     setMapLayer(event.target.value as string);
@@ -140,9 +140,17 @@ export default function SelectAtributesModal({
     }
   };
 
+  const mapLayersBySpacialFeatureType = mapLayers.filter(
+    layer => layer.geomType === spacialFeatureType,
+  );
+
   return (
     <div>
-      <Dialog fullScreen={fullScreen} open={isOpen} onClose={handleClose}>
+      <Dialog
+        fullScreen={fullScreen}
+        open={isOpen}
+        onClose={handleCloseAtributesModal}
+      >
         <DialogTitle style={{ minWidth: '500px' }}>
           {'Criar novo Ponto'}
         </DialogTitle>
@@ -155,7 +163,7 @@ export default function SelectAtributesModal({
               label="O que está mapeando?"
               fullWidth
             >
-              {mapLayers.map(layer => {
+              {mapLayersBySpacialFeatureType.map(layer => {
                 return <MenuItem value={layer.id}>{layer.label}</MenuItem>;
               })}
             </Select>
@@ -163,7 +171,7 @@ export default function SelectAtributesModal({
           {getLayerForm()}
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color="primary">
+          <Button onClick={handleCloseAtributesModal} color="primary">
             Cancelar
           </Button>
           <Button

@@ -135,8 +135,8 @@ export default function BusStopForm({
         <FormControl className={classes.select}>
           <InputLabel>Possui bancos/cadeiras?</InputLabel>
           <Select
-            value={formValues.haveSeat}
-            onChange={event => handleChangeSelect(event, 'haveSeat')}
+            value={formValues.haveSeats}
+            onChange={event => handleChangeSelect(event, 'haveSeats')}
             label="Possui bancos/cadeiras?"
           >
             <MenuItem value={null as any}>
