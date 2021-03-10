@@ -31,6 +31,7 @@ import {
 import { mapLayers } from '../../config/constants';
 import { getIcon } from '../../icons/Points';
 import MarkerClusterGroup from 'react-leaflet-markercluster';
+import LayersSimbology from './LayersSimbology';
 
 const position = [51.505, -0.09];
 const limeOptions = {
@@ -69,6 +70,37 @@ function LocationLines({ lines, setLines }) {
   return null;
 }
 
+const formValuesInitialValues = {
+  name: '',
+  way: '',
+  slope: '',
+  paved: null,
+  roadCondition: '',
+  havePublicTransportation: null,
+  notes: '',
+  haveVisualAlert: null,
+  haveSoundAlert: null,
+  haveSoundNotification: null,
+  haveFarVisibilityOfTheTrainLine: null,
+  surfaceSituation: '',
+  bicyclePathType: '',
+  bikeRacksCondition: '',
+  havePumpTireBomb: null,
+  haveFoodToSell: null,
+  haveBikeSupportParts: null,
+  haveSeats: null,
+  accessibleToWheelchair: null,
+  haveCrosswalk: null,
+  inclination: '',
+  surface: '',
+  width: '',
+  haveContrastedTacticlePaving: null,
+  tactilePavingColor: '',
+  tacticlePavingSituation: '',
+  rainCovered: null,
+  haveBusLinesDemonstrations: null,
+};
+
 export default function Map() {
   const [isAddPointOptionEnabled, setAddPointOptionEnabled] = useState(false);
   const [isAddLineOptionEnabled, setAddLineOptionEnabled] = useState(false);
@@ -79,40 +111,21 @@ export default function Map() {
     setModalSelectAtributeVisible,
   ] = useState(false);
   const [currentMarker, setCurrentMarker] = useState({});
-  const [formValues, setFormValues] = useState({
-    name: '',
-    way: '',
-    slope: '',
-    paved: null,
-    roadCondition: '',
-    havePublicTransportation: null,
-    notes: '',
-    haveVisualAlert: null,
-    haveSoundAlert: null,
-    haveSoundNotification: null,
-    haveFarVisibilityOfTheTrainLine: null,
-    surfaceSituation: '',
-    bicyclePathType: '',
-    bikeRacksCondition: '',
-    havePumpTireBomb: null,
-    haveFoodToSell: null,
-    haveBikeSupportParts: null,
-    haveSeats: null,
-    accessibleToWheelchair: null,
-    haveCrosswalk: null,
-    inclination: '',
-    surface: '',
-    width: '',
-    haveContrastedTacticlePaving: null,
-    tactilePavingColor: '',
-    tacticlePavingSituation: '',
-    rainCovered: null,
-    haveBusLinesDemonstrations: null,
-  });
+  const [formValues, setFormValues] = useState(formValuesInitialValues);
   const [mapLayer, setMapLayer] = useState('');
   const dispatch = useDispatch();
   const pointsGeom = useSelector(state => state.pointsGeom);
   const linesGeom = useSelector(state => state.linesGeom);
+  const [layerCheckbox, setLayerCheckbox] = React.useState({
+    accessibilityRamps: true,
+    trainCross: true,
+    bikeParks: true,
+    bikeSupportPoints: true,
+    taxiStops: true,
+    trafficLights: true,
+    sidewalkObstacles: true,
+    busStops: true,
+  });
 
   React.useEffect(() => {
     mapLayers.forEach(item => getGeomByLayer(item.id));
@@ -185,6 +198,8 @@ export default function Map() {
       .then(() => getGeomByLayer(mapLayer))
       .finally(() => {
         setModalSelectAtributeVisible(false);
+        setFormValues(formValuesInitialValues);
+        setMapLayer('');
       });
   };
 
@@ -195,88 +210,101 @@ export default function Map() {
 
   return (
     <div>
-      <div style={{ cursor: 'crosshair' }}>
-        <div
-          onPointerEnter={forceToggleClassName}
-          className="leaflet-container"
-        >
-          <MapContainer center={position} zoom={13} maxZoom={18}>
-            {isAddPointOptionEnabled && (
-              <LocationMarkers
-                setCurrentMarker={setCurrentMarker}
-                setModalSelectAtributeVisible={setModalSelectAtributeVisible}
-              />
-            )}
-            <MarkerClusterGroup>
-              {Object.keys(pointsGeom).map(key => {
-                return pointsGeom[key].map(marker => {
-                  console.log(key);
+      <div style={{ display: 'flex' }}>
+        <LayersSimbology
+          layerCheckbox={layerCheckbox}
+          setLayerCheckbox={setLayerCheckbox}
+          points={pointsGeom}
+        />
+        <div style={{ cursor: 'crosshair', display: 'contents' }}>
+          <div
+            onPointerEnter={forceToggleClassName}
+            className="leaflet-container"
+          >
+            <MapContainer center={position} zoom={13} maxZoom={18}>
+              {isAddPointOptionEnabled && (
+                <LocationMarkers
+                  setCurrentMarker={setCurrentMarker}
+                  setModalSelectAtributeVisible={setModalSelectAtributeVisible}
+                />
+              )}
+              <MarkerClusterGroup>
+                {Object.keys(pointsGeom).map(key => {
+                  const isLayerEnabled = layerCheckbox[key] === true;
+                  if (isLayerEnabled)
+                    return pointsGeom[key].map(marker => {
+                      return (
+                        <Marker icon={getIcon(key)} position={marker}>
+                          <Popup>{key}</Popup>
+                        </Marker>
+                      );
+                    });
+                })}
+              </MarkerClusterGroup>
+
+              {isAddLineOptionEnabled && (
+                <LocationLines lines={lines} setLines={setLines} />
+              )}
+
+              {Object.keys(linesGeom).map(key => {
+                return linesGeom[key].map(line => {
                   return (
-                    <Marker icon={getIcon(key)} position={marker}>
+                    <Polyline pathOptions={limeOptions} positions={line.geom}>
                       <Popup>{key}</Popup>
-                    </Marker>
+                    </Polyline>
                   );
                 });
               })}
-            </MarkerClusterGroup>
 
-            {isAddLineOptionEnabled && (
-              <LocationLines lines={lines} setLines={setLines} />
-            )}
+              <Polyline
+                pathOptions={limeOptions}
+                positions={[lines]}
+              ></Polyline>
 
-            {Object.keys(linesGeom).map(key => {
-              return linesGeom[key].map(line => {
-                return (
-                  <Polyline pathOptions={limeOptions} positions={line.geom}>
-                    <Popup>{key}</Popup>
-                  </Polyline>
-                );
-              });
-            })}
-
-            <Polyline pathOptions={limeOptions} positions={[lines]}></Polyline>
-
-            <TileLayer
-              attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-              //url="http://{s}.www.toolserver.org/tiles/bw-mapnik/{z}/{x}/{y}.png"
-            />
-          </MapContainer>
-        </div>
-        <div className="leaflet-right leaflet-top">
-          <div className="leaflet-control leaflet-bar leaflet-control-zoom">
-            <a
-              className="leaflet-control-zoom-in"
-              title="Adicionar Ponto"
-              style={{
-                backgroundColor: isAddPointOptionEnabled
-                  ? 'rgb(49,55,55, 0.8)'
-                  : 'rgb(49,55,55)',
-                color: '#FFF',
-                cursor: 'pointer',
-                height: '36px',
-                width: '36px',
-              }}
-              onClick={() => toggleAddPointOption()}
-            >
-              <RoomIcon style={{ fontSize: '1.5rem', marginTop: '4px' }} />
-            </a>
-            <a
-              className="leaflet-control-zoom-in"
-              title="Adicionar Linha"
-              style={{
-                backgroundColor: isAddLineOptionEnabled
-                  ? 'rgb(49,55,55, 0.8)'
-                  : 'rgb(49,55,55)',
-                color: '#FFF',
-                cursor: 'pointer',
-                height: '36px',
-                width: '36px',
-              }}
-              onClick={() => toggleAddLineOption()}
-            >
-              <TimelineIcon style={{ fontSize: '1.5rem', marginTop: '4px' }} />
-            </a>
+              <TileLayer
+                attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                //url="http://{s}.www.toolserver.org/tiles/bw-mapnik/{z}/{x}/{y}.png"
+              />
+            </MapContainer>
+          </div>
+          <div className="leaflet-right leaflet-top">
+            <div className="leaflet-control leaflet-bar leaflet-control-zoom">
+              <a
+                className="leaflet-control-zoom-in"
+                title="Adicionar Ponto"
+                style={{
+                  backgroundColor: isAddPointOptionEnabled
+                    ? 'rgb(49,55,55, 0.8)'
+                    : 'rgb(49,55,55)',
+                  color: '#FFF',
+                  cursor: 'pointer',
+                  height: '36px',
+                  width: '36px',
+                }}
+                onClick={() => toggleAddPointOption()}
+              >
+                <RoomIcon style={{ fontSize: '1.5rem', marginTop: '4px' }} />
+              </a>
+              <a
+                className="leaflet-control-zoom-in"
+                title="Adicionar Linha"
+                style={{
+                  backgroundColor: isAddLineOptionEnabled
+                    ? 'rgb(49,55,55, 0.8)'
+                    : 'rgb(49,55,55)',
+                  color: '#FFF',
+                  cursor: 'pointer',
+                  height: '36px',
+                  width: '36px',
+                }}
+                onClick={() => toggleAddLineOption()}
+              >
+                <TimelineIcon
+                  style={{ fontSize: '1.5rem', marginTop: '4px' }}
+                />
+              </a>
+            </div>
           </div>
         </div>
       </div>
