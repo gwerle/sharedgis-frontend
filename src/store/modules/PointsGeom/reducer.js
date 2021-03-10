@@ -1,7 +1,7 @@
 const initialState = {
   accessibilityRamps: [],
   trainCross: [],
-  bikeParts: [],
+  bikeParks: [],
   bikeSupportPoints: [],
   taxiStops: [],
   trafficLights: [],
@@ -27,7 +27,7 @@ export default function pointsGeomReducer(
       case '@POINTS/SET_BIKE_PARKS':
         return {
           ...state,
-          bikeParts: action.payload.data
+          bikeParks: action.payload.data
         };
       case '@POINTS/SET_BIKE_SUPPORT_POINTS':
         return {

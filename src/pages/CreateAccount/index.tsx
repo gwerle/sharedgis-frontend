@@ -146,9 +146,6 @@ const CreateAccount: React.FC = () => {
                   </Button>
                 </div>
               </Grid>
-              <Grid item xs={3}>
-                <div>LOGO</div>
-              </Grid>
             </Grid>
           </form>
         </div>
