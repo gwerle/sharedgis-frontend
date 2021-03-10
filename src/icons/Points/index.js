@@ -6,61 +6,84 @@ import BikeSupportPoint from './svg/BikeSupportPoint.svg';
 import BusStop from './svg/BusStop.svg';
 import TaxiStop from './svg/TaxiStop.svg';
 import TrainCross from './svg/TrainCross.svg';
-import AccessibleForwardIcon from '@material-ui/icons/AccessibleForward';
-import DirectionsWalkIcon from '@material-ui/icons/DirectionsWalk';
+import AccessibleRamp from './svg/AccessibleRamp.svg';
+import SidewalkObstacle from './svg/SidewalkObstacle.svg';
 
-export const TrafficLightIcon = new L.Icon({
+const TrafficLightIcon = new L.Icon({
   iconUrl: TrafficLight,
   iconRetinaUrl: TrafficLight,
   popupAnchor: [-0, -0],
-  iconSize: [22, 35],
+  iconSize: [32, 32],
 });
 
-export const BikeParkIcon = new L.Icon({
+const BikeParkIcon = new L.Icon({
   iconUrl: BikePark,
   iconRetinaUrl: BikePark,
   popupAnchor: [-0, -0],
   iconSize: [32, 32],
 });
 
-export const BikeSupportPointIcon = new L.Icon({
+const BikeSupportPointIcon = new L.Icon({
   iconUrl: BikeSupportPoint,
   iconRetinaUrl: BikeSupportPoint,
   popupAnchor: [-0, -0],
   iconSize: [32, 32],
 });
 
-export const BusStopIcon = new L.Icon({
+const BusStopIcon = new L.Icon({
   iconUrl: BusStop,
   iconRetinaUrl: BusStop,
   popupAnchor: [-0, -0],
-  iconSize: [22, 35],
+  iconSize: [32, 32],
 });
 
-export const TaxiStopIcon = new L.Icon({
+const TaxiStopIcon = new L.Icon({
   iconUrl: TaxiStop,
   iconRetinaUrl: TaxiStop,
   popupAnchor: [-0, -0],
-  iconSize: [22, 25],
+  iconSize: [32, 32],
 });
 
-export const TrainCrossIcon = new L.Icon({
+const TrainCrossIcon = new L.Icon({
   iconUrl: TrainCross,
   iconRetinaUrl: TrainCross,
   popupAnchor: [-0, -0],
-  iconSize: [22, 22],
+  iconSize: [32, 32],
 });
 
-export const AccessibleRampIcon = new L.Icon({
-  iconUrl: AccessibleForwardIcon,
-  iconRetinaUrl: AccessibleForwardIcon,
+const AccessibleRampIcon = new L.Icon({
+  iconUrl: AccessibleRamp,
+  iconRetinaUrl: AccessibleRamp,
   popupAnchor: [-0, -0],
-  iconSize: [22, 22],
+  iconSize: [32, 32],
 });
 
-export const SidewalkObstacleIcon = new L.Icon({
-  iconUrl: DirectionsWalkIcon,
-  iconRetinaUrl: DirectionsWalkIcon,
+const SidewalkObstacleIcon = new L.Icon({
+  iconUrl: SidewalkObstacle,
+  iconRetinaUrl: SidewalkObstacle,
   popupAnchor: [-0, -0],
-  iconSize: [22, 22],
+  iconSize: [32, 32],
 });
+
+export const getIcon = (id) => {
+  switch (id) {
+    case 'accessibilityRamps':
+      return AccessibleRampIcon;
+    case 'trainCross':
+      return TrainCrossIcon;
+    case 'bikeParks':
+      return BikeParkIcon;
+    case 'bikeSupportPoints':
+      return BikeSupportPointIcon;
+    case 'taxiStops':
+      return TaxiStopIcon;
+    case 'trafficLights':
+      return TrafficLightIcon;
+    case 'sidewalkObstacles':
+      return SidewalkObstacleIcon;
+    case 'busStops':
+      return BusStopIcon;
+    default:
+      return BusStopIcon;
+  }
+}

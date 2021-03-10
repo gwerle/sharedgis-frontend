@@ -29,9 +29,15 @@ import {
   getSidewalks,
 } from '../../store/modules/LinesGeom/thunks';
 import { mapLayers } from '../../config/constants';
+import { getIcon } from '../../icons/Points';
+import MarkerClusterGroup from 'react-leaflet-markercluster';
 
 const position = [51.505, -0.09];
-const limeOptions = { color: 'lime' };
+const limeOptions = {
+  color: 'black',
+  dashArray: '20, 20',
+  dashOffset: '0',
+};
 
 function LocationMarkers({ setCurrentMarker, setModalSelectAtributeVisible }) {
   useMapEvents({
@@ -83,6 +89,7 @@ export default function Map() {
     notes: '',
     haveVisualAlert: null,
     haveSoundAlert: null,
+    haveSoundNotification: null,
     haveFarVisibilityOfTheTrainLine: null,
     surfaceSituation: '',
     bicyclePathType: '',
@@ -193,22 +200,25 @@ export default function Map() {
           onPointerEnter={forceToggleClassName}
           className="leaflet-container"
         >
-          <MapContainer center={position} zoom={13}>
+          <MapContainer center={position} zoom={13} maxZoom={18}>
             {isAddPointOptionEnabled && (
               <LocationMarkers
                 setCurrentMarker={setCurrentMarker}
                 setModalSelectAtributeVisible={setModalSelectAtributeVisible}
               />
             )}
-            {Object.keys(pointsGeom).map(key => {
-              return pointsGeom[key].map(marker => {
-                return (
-                  <Marker position={marker}>
-                    <Popup>{marker.id || null}</Popup>
-                  </Marker>
-                );
-              });
-            })}
+            <MarkerClusterGroup>
+              {Object.keys(pointsGeom).map(key => {
+                return pointsGeom[key].map(marker => {
+                  console.log(key);
+                  return (
+                    <Marker icon={getIcon(key)} position={marker}>
+                      <Popup>{key}</Popup>
+                    </Marker>
+                  );
+                });
+              })}
+            </MarkerClusterGroup>
 
             {isAddLineOptionEnabled && (
               <LocationLines lines={lines} setLines={setLines} />
@@ -229,6 +239,7 @@ export default function Map() {
             <TileLayer
               attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+              //url="http://{s}.www.toolserver.org/tiles/bw-mapnik/{z}/{x}/{y}.png"
             />
           </MapContainer>
         </div>
