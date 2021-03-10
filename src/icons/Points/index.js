@@ -48,7 +48,7 @@ const TrainCrossIcon = new L.Icon({
   iconUrl: TrainCross,
   iconRetinaUrl: TrainCross,
   popupAnchor: [-0, -0],
-  iconSize: [32, 32],
+  iconSize: [35, 35],
 });
 
 const AccessibleRampIcon = new L.Icon({
