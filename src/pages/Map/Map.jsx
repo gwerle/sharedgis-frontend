@@ -6,6 +6,7 @@ import {
   Popup,
   useMapEvents,
   Polyline,
+  useMap,
 } from 'react-leaflet';
 import RoomIcon from '@material-ui/icons/Room';
 import TimelineIcon from '@material-ui/icons/Timeline';
@@ -32,8 +33,16 @@ import { mapLayers } from '../../config/constants';
 import { getIcon } from '../../icons/Points';
 import MarkerClusterGroup from 'react-leaflet-markercluster';
 import LayersSimbology from './LayersSimbology';
+import AcessibilityRampPopup from './MarkerPopups/AcessibilityRampPopup';
+import BikeParkPopup from './MarkerPopups/BikeParkPopup';
+import BikeSupportPointPopup from './MarkerPopups/BikeSupportPointPopup';
+import CrosswalkObstaclePopup from './MarkerPopups/CrosswalkObstaclePopup';
+import BusStopPopup from './MarkerPopups/BusStopPopup';
+import TrainCrossPopup from './MarkerPopups/TrainCrossPopup';
+import TrafficLightPopup from './MarkerPopups/TrafficLightPopup';
+import TaxiStopPopup from './MarkerPopups/TaxiStopPopup';
 
-const position = [51.505, -0.09];
+const position = [-15.81, -47.9];
 const limeOptions = {
   color: 'black',
   dashArray: '20, 20',
@@ -126,6 +135,7 @@ export default function Map() {
     sidewalkObstacles: true,
     busStops: true,
   });
+  const [userLocated, setUserLocated] = React.useState(false);
 
   React.useEffect(() => {
     mapLayers.forEach(item => getGeomByLayer(item.id));
@@ -208,6 +218,42 @@ export default function Map() {
     setLines([]);
   };
 
+  const getPopUpComponent = (id, data) => {
+    switch (id) {
+      case 'accessibilityRamps':
+        return <AcessibilityRampPopup data={data} />;
+      case 'trainCross':
+        return <TrainCrossPopup data={data} />;
+      case 'bikeParks':
+        return <BikeParkPopup data={data} />;
+      case 'bikeSupportPoints':
+        return <BikeSupportPointPopup data={data} />;
+      case 'taxiStops':
+        return <TaxiStopPopup data={data} />;
+      case 'trafficLights':
+        return <TrafficLightPopup data={data} />;
+      case 'sidewalkObstacles':
+        return <CrosswalkObstaclePopup data={data} />;
+      case 'busStops':
+        return <BusStopPopup data={data} />;
+      default:
+        return <BusStopPopup data={data} />;
+    }
+  };
+
+  function ZoomToLocation() {
+    const map = useMap();
+
+    React.useEffect(() => {
+      map.locate().on('locationfound', function (e) {
+        setUserLocated(true);
+        map.flyTo(e.latlng, 14);
+      });
+    }, []);
+
+    return null;
+  }
+
   return (
     <div>
       <div style={{ display: 'flex' }}>
@@ -221,21 +267,22 @@ export default function Map() {
             onPointerEnter={forceToggleClassName}
             className="leaflet-container"
           >
-            <MapContainer center={position} zoom={13} maxZoom={18}>
+            <MapContainer center={position} zoom={4} maxZoom={18}>
               {isAddPointOptionEnabled && (
                 <LocationMarkers
                   setCurrentMarker={setCurrentMarker}
                   setModalSelectAtributeVisible={setModalSelectAtributeVisible}
                 />
               )}
+              {!userLocated && <ZoomToLocation />}
               <MarkerClusterGroup>
                 {Object.keys(pointsGeom).map(key => {
-                  const isLayerEnabled = layerCheckbox[key] === true;
+                  const isLayerEnabled = layerCheckbox[key];
                   if (isLayerEnabled)
                     return pointsGeom[key].map(marker => {
                       return (
                         <Marker icon={getIcon(key)} position={marker}>
-                          <Popup>{key}</Popup>
+                          <Popup>{getPopUpComponent(key, marker)}</Popup>
                         </Marker>
                       );
                     });
@@ -264,7 +311,6 @@ export default function Map() {
               <TileLayer
                 attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                //url="http://{s}.www.toolserver.org/tiles/bw-mapnik/{z}/{x}/{y}.png"
               />
             </MapContainer>
           </div>
