@@ -1,5 +1,6 @@
 import React from 'react';
 import { formatBoolean } from '../../../utils/enumUtils';
+import DeleteComponent from './DeleteComponent';
 
 export default function TrainCrossPopup({ data }) {
   return (
@@ -12,6 +13,7 @@ export default function TrainCrossPopup({ data }) {
         {formatBoolean(data.have_far_visibility_of_the_train_line)}
       </div>
       <div>Observações: {data.notes}</div>
+      <DeleteComponent url="train-cross" id={data.id} />
     </div>
   );
 }

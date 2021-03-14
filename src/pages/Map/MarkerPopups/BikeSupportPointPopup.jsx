@@ -1,5 +1,6 @@
 import React from 'react';
 import { formatBoolean } from '../../../utils/enumUtils';
+import DeleteComponent from './DeleteComponent';
 
 export default function BikeSupportPointPopup({ data }) {
   return (
@@ -18,6 +19,7 @@ export default function BikeSupportPointPopup({ data }) {
         {formatBoolean(data.accessible_to_wheelchair)}
       </div>
       <div>Observações: {data.notes}</div>
+      <DeleteComponent url="bike-support-points" id={data.id} />
     </div>
   );
 }

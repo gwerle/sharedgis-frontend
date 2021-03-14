@@ -31,3 +31,7 @@ export function getSidewalkObstacles(map_id: string) {
 export function getBusStops(map_id: string) {
   return api.get(`/bus-stops?map_id=${map_id}`);
 }
+
+export function deleteItem(url: string, id: number) {
+  return api.delete(`${url}/${id}`);
+}

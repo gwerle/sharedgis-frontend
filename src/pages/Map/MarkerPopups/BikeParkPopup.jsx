@@ -1,5 +1,6 @@
 import React from 'react';
 import { formatBikeRacksConditionEnum } from '../../../utils/enumUtils';
+import DeleteComponent from './DeleteComponent';
 
 export default function BikeParkPopup({ data }) {
   return (
@@ -10,6 +11,7 @@ export default function BikeParkPopup({ data }) {
         {formatBikeRacksConditionEnum(data.bike_racks_conditions)}
       </div>
       <div>Observações: {data.notes}</div>
+      <DeleteComponent url="bike-parks" id={data.id} />
     </div>
   );
 }

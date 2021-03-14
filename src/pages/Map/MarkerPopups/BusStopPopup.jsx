@@ -1,5 +1,6 @@
 import React from 'react';
 import { formatBoolean } from '../../../utils/enumUtils';
+import DeleteComponent from './DeleteComponent';
 
 export default function BusStopPopup({ data }) {
   return (
@@ -26,6 +27,7 @@ export default function BusStopPopup({ data }) {
       <div>Possui bancos/cadeiras: {formatBoolean(data.have_seats)}</div>
 
       <div>Observações: {data.notes}</div>
+      <DeleteComponent url="bus-stops" id={data.id} />
     </div>
   );
 }

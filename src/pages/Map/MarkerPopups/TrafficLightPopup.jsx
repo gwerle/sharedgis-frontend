@@ -1,5 +1,6 @@
 import React from 'react';
 import { formatBoolean } from '../../../utils/enumUtils';
+import DeleteComponent from './DeleteComponent';
 
 export default function BikeSupportPointPopup({ data }) {
   return (
@@ -10,6 +11,7 @@ export default function BikeSupportPointPopup({ data }) {
       </div>
       <div>Possui faixa de pedestre: {formatBoolean(data.have_crosswalk)}</div>
       <div>Observações: {data.notes}</div>
+      <DeleteComponent url="traffic-lights" id={data.id} />
     </div>
   );
 }
