@@ -8,9 +8,14 @@ import SidewalkObstacleIcon from '../../icons/Points/components/SidewalkObstacle
 import TrafficLightIcon from '../../icons/Points/components/TrafficLight';
 import BusStopIcon from '../../icons/Points/components/BusStop';
 import TaxiStopIcon from '../../icons/Points/components/TaxiStop';
+import BicyclePathIcon from '../../icons/Lines/components/BicyclePath';
+import TrainLineIcon from '../../icons/Lines/components/TrainLine';
+import SidewalkIcon from '../../icons/Lines/components/Sidewalk';
+import RoadsIcon from '../../icons/Lines/components/Roads';
 
 export default function LayersSimbology({
   points,
+  lines,
   layerCheckbox,
   setLayerCheckbox,
 }) {
@@ -32,6 +37,14 @@ export default function LayersSimbology({
         return 'Obstáculos na Calçada';
       case 'busStops':
         return 'Paradas de Ônibus';
+      case 'roads':
+        return 'Vias';
+      case 'sidewalks':
+        return 'Calçadas';
+      case 'trains':
+        return 'Via Férrea';
+      case 'bicyclePaths':
+        return 'Ciclovias';
 
       default:
         return '';
@@ -63,6 +76,14 @@ export default function LayersSimbology({
         return <SidewalkObstacleIcon height="24" width="24" />;
       case 'busStops':
         return <BusStopIcon height="24" width="24" />;
+      case 'roads':
+        return <RoadsIcon height="24" width="24" />;
+      case 'sidewalks':
+        return <SidewalkIcon height="24" width="24" />;
+      case 'trains':
+        return <TrainLineIcon height="24" width="24" />;
+      case 'bicyclePaths':
+        return <BicyclePathIcon height="24" width="24" />;
       default:
         break;
     }
@@ -82,7 +103,29 @@ export default function LayersSimbology({
                     name={layer}
                     color="primary"
                   />
-                  <span>{getSmallIcon(layer)}</span>
+                  <span style={{ marginRight: '7px' }}>
+                    {getSmallIcon(layer)}
+                  </span>
+                </>
+              }
+              label={getLayerName(layer)}
+            />
+          );
+        })}
+        {Object.keys(lines).map(layer => {
+          return (
+            <FormControlLabel
+              control={
+                <>
+                  <Checkbox
+                    checked={layerCheckbox[layer]}
+                    onChange={handleChange}
+                    name={layer}
+                    color="primary"
+                  />
+                  <span style={{ marginRight: '7px' }}>
+                    {getSmallIcon(layer)}
+                  </span>
                 </>
               }
               label={getLayerName(layer)}

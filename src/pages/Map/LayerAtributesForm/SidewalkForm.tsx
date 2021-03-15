@@ -80,7 +80,7 @@ export default function SidewalkForm({
       </div>
       <div>
         <TextField
-          label="Largura"
+          label="Largura (m)"
           value={formValues.width}
           type={'number'}
           onChange={event => handleChangeSelect(event, 'width')}
@@ -133,7 +133,7 @@ export default function SidewalkForm({
         <FormControl className={classes.selectFullWidth}>
           <InputLabel>Situação do Pavimento tátil</InputLabel>
           <Select
-            value={formValues.haveContrastedTacticlePaving}
+            value={formValues.tacticlePavingSituation}
             onChange={event =>
               handleChangeSelect(event, 'tacticlePavingSituation')
             }

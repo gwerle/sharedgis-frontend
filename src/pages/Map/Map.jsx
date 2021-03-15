@@ -41,13 +41,13 @@ import BusStopPopup from './MarkerPopups/BusStopPopup';
 import TrainCrossPopup from './MarkerPopups/TrainCrossPopup';
 import TrafficLightPopup from './MarkerPopups/TrafficLightPopup';
 import TaxiStopPopup from './MarkerPopups/TaxiStopPopup';
+import { getLineIcon } from '../../icons/Lines';
+import BicyclePathPopup from './MarkerPopups/BicyclePathPopup';
+import RoadsPopup from './MarkerPopups/RoadsPopup';
+import SidewalkPopup from './MarkerPopups/SidewalkPopup';
+import TrainLinePopup from './MarkerPopups/TrainLinePopup';
 
 const position = [-15.81, -47.9];
-const limeOptions = {
-  color: 'black',
-  dashArray: '20, 20',
-  dashOffset: '0',
-};
 
 function LocationMarkers({ setCurrentMarker, setModalSelectAtributeVisible }) {
   useMapEvents({
@@ -80,32 +80,32 @@ function LocationLines({ lines, setLines }) {
 }
 
 const formValuesInitialValues = {
-  name: '',
-  way: '',
-  slope: '',
+  name: null,
+  way: null,
+  slope: null,
   paved: null,
-  roadCondition: '',
+  roadCondition: null,
   havePublicTransportation: null,
-  notes: '',
+  notes: null,
   haveVisualAlert: null,
   haveSoundAlert: null,
   haveSoundNotification: null,
   haveFarVisibilityOfTheTrainLine: null,
-  surfaceSituation: '',
-  bicyclePathType: '',
-  bikeRacksCondition: '',
+  surfaceSituation: null,
+  bicyclePathType: null,
+  bikeRacksCondition: null,
   havePumpTireBomb: null,
   haveFoodToSell: null,
   haveBikeSupportParts: null,
   haveSeats: null,
   accessibleToWheelchair: null,
   haveCrosswalk: null,
-  inclination: '',
-  surface: '',
-  width: '',
+  inclination: null,
+  surface: null,
+  width: null,
   haveContrastedTacticlePaving: null,
-  tactilePavingColor: '',
-  tacticlePavingSituation: '',
+  tactilePavingColor: null,
+  tacticlePavingSituation: null,
   rainCovered: null,
   haveBusLinesDemonstrations: null,
 };
@@ -121,7 +121,7 @@ export default function Map() {
   ] = useState(false);
   const [currentMarker, setCurrentMarker] = useState({});
   const [formValues, setFormValues] = useState(formValuesInitialValues);
-  const [mapLayer, setMapLayer] = useState('');
+  const [mapLayer, setMapLayer] = useState(null);
   const dispatch = useDispatch();
   const pointsGeom = useSelector(state => state.pointsGeom);
   const linesGeom = useSelector(state => state.linesGeom);
@@ -134,6 +134,10 @@ export default function Map() {
     trafficLights: true,
     sidewalkObstacles: true,
     busStops: true,
+    roads: true,
+    sidewalks: true,
+    trains: true,
+    bicyclePaths: true,
   });
   const [userLocated, setUserLocated] = React.useState(false);
 
@@ -216,6 +220,8 @@ export default function Map() {
   const handleCloseAtributesModal = () => {
     setModalSelectAtributeVisible(false);
     setLines([]);
+    setAddLineOptionEnabled(false);
+    setAddPointOptionEnabled(false);
   };
 
   const getPopUpComponent = (id, data) => {
@@ -236,6 +242,14 @@ export default function Map() {
         return <CrosswalkObstaclePopup data={data} />;
       case 'busStops':
         return <BusStopPopup data={data} />;
+      case 'bicyclePaths':
+        return <BicyclePathPopup data={data} />;
+      case 'roads':
+        return <RoadsPopup data={data} />;
+      case 'sidewalks':
+        return <SidewalkPopup data={data} />;
+      case 'trains':
+        return <TrainLinePopup data={data} />;
       default:
         return <BusStopPopup data={data} />;
     }
@@ -261,6 +275,7 @@ export default function Map() {
           layerCheckbox={layerCheckbox}
           setLayerCheckbox={setLayerCheckbox}
           points={pointsGeom}
+          lines={linesGeom}
         />
         <div style={{ cursor: 'crosshair', display: 'contents' }}>
           <div
@@ -294,17 +309,22 @@ export default function Map() {
               )}
 
               {Object.keys(linesGeom).map(key => {
-                return linesGeom[key].map(line => {
-                  return (
-                    <Polyline pathOptions={limeOptions} positions={line.geom}>
-                      <Popup>{key}</Popup>
-                    </Polyline>
-                  );
-                });
+                const isLayerEnabled = layerCheckbox[key];
+                if (isLayerEnabled)
+                  return linesGeom[key].map(line => {
+                    return (
+                      <Polyline
+                        pathOptions={getLineIcon(key)}
+                        positions={line.geom}
+                      >
+                        <Popup>{getPopUpComponent(key, line)}</Popup>
+                      </Polyline>
+                    );
+                  });
               })}
 
               <Polyline
-                pathOptions={limeOptions}
+                pathOptions={getLineIcon('newLine')}
                 positions={[lines]}
               ></Polyline>
 
