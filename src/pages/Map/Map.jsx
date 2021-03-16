@@ -86,7 +86,7 @@ const formValuesInitialValues = {
   paved: null,
   roadCondition: null,
   havePublicTransportation: null,
-  notes: null,
+  notes: '',
   haveVisualAlert: null,
   haveSoundAlert: null,
   haveSoundNotification: null,
