@@ -24,14 +24,11 @@ export default function BikeParkForm({
     event: React.ChangeEvent<{ value: unknown }>,
     form: string,
   ) => {
-    setFormValues((state: any) => {
-      return {
-        ...state,
-        [form]: event?.target?.value as string,
-      };
+    setFormValues({
+      ...formValues,
+      [form]: event?.target?.value as string,
     });
   };
-
   return (
     <form className={classes.root} noValidate autoComplete="off">
       <div>

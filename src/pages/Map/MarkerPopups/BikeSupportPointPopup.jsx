@@ -6,18 +6,17 @@ export default function BikeSupportPointPopup({ data }) {
   return (
     <div>
       <div>Id: {data.id}</div>
-      <div>Possui bancos/cadeiras: {formatBoolean(data.have_seats)}</div>
       <div>
-        Possui notificação visual:{' '}
-        {formatBoolean(data.have_visual_notification)}
+        Possui bomba para encher pneu: {formatBoolean(data.have_pump_tire_bomb)}
       </div>
       <div>
-        Possui notificação sonora: {formatBoolean(data.have_sound_notification)}
+        Possui comida para vender: {formatBoolean(data.have_food_to_sell)}
       </div>
       <div>
-        Acessível para cadeirantes:{' '}
-        {formatBoolean(data.accessible_to_wheelchair)}
+        Possui peças de reposição de bicicleta:{' '}
+        {formatBoolean(data.have_bike_support_parts)}
       </div>
+
       <div>Observações: {data.notes}</div>
       <DeleteComponent url="bike-support-points" id={data.id} />
     </div>

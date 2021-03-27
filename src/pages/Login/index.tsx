@@ -6,22 +6,18 @@ import api from '../../services/api';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from '../../store';
 import { showSnackbar } from '../../store/modules/Snackbar/actions';
-import Cookies from 'js-cookie';
 
 const Login: React.FC = () => {
   const [emailField, setEmailField] = useState('');
   const [passwordField, setPasswordField] = useState('');
-  const history = useHistory();
   const dispatch = useDispatch();
 
   const handleSubmitLoginForm = () => {
     api
       .post('/sessions', { email: emailField, password: passwordField })
       .then(response => {
-        if (response.status === 200) {
-          Cookies.set('token', response.data.token, { expires: 1 });
-          return history.push('/dashboard');
-        }
+        localStorage.setItem('token', response.data.token);
+        window.location.href = '/dashboard';
       })
       .catch(errorStr => {
         const error = { ...errorStr };
@@ -29,14 +25,29 @@ const Login: React.FC = () => {
       });
   };
 
+  React.useEffect(() => {
+    const token = localStorage.getItem('token');
+
+    if (token) {
+      window.location.href = '/dashboard';
+    }
+  });
+
   return (
     <ContainerLogin>
       <BorderedDiv>
         <LeftDiv />
         <RightDiv>
           <div style={{ padding: '30% 0' }}>
-            <div style={{ width: '60%', margin: '10px auto' }}>
-              <form noValidate autoComplete="off">
+            <form
+              onSubmit={event => {
+                event.preventDefault();
+                handleSubmitLoginForm();
+              }}
+              noValidate
+              autoComplete="off"
+            >
+              <div style={{ width: '60%', margin: '10px auto' }}>
                 <TextField
                   value={emailField}
                   onChange={event => setEmailField(event.target.value)}
@@ -55,22 +66,23 @@ const Login: React.FC = () => {
                   variant="outlined"
                   color="secondary"
                 />
-              </form>
-            </div>
-            <div>
-              <Button
-                style={{
-                  color: '#FFF',
-                  padding: '6px 30px',
-                  marginTop: '20px',
-                }}
-                variant="contained"
-                color="primary"
-                onClick={() => handleSubmitLoginForm()}
-              >
-                Login
-              </Button>
-            </div>
+              </div>
+              <div>
+                <Button
+                  style={{
+                    color: '#FFF',
+                    padding: '6px 30px',
+                    marginTop: '20px',
+                  }}
+                  variant="contained"
+                  color="primary"
+                  type="submit"
+                  onClick={() => handleSubmitLoginForm()}
+                >
+                  Login
+                </Button>
+              </div>
+            </form>
           </div>
           <div style={{ fontSize: '14px', color: 'rgb(0,0,0, 0.8)' }}>
             Ainda não é cadastrado?

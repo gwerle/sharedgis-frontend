@@ -104,7 +104,7 @@ const formValuesInitialValues = {
   surface: null,
   width: null,
   haveContrastedTacticlePaving: null,
-  tactilePavingColor: null,
+  tacticlePavingColor: null,
   tacticlePavingSituation: null,
   rainCovered: null,
   haveBusLinesDemonstrations: null,
@@ -214,6 +214,7 @@ export default function Map() {
         setModalSelectAtributeVisible(false);
         setFormValues(formValuesInitialValues);
         setMapLayer('');
+        setLines([]);
       });
   };
 

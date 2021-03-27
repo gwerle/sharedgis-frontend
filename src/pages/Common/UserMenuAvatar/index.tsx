@@ -1,6 +1,5 @@
 import React from 'react';
 import Avatar from '@material-ui/core/Avatar';
-import Cookies from 'js-cookie';
 import jwt_decode from 'jwt-decode';
 import { Menu, MenuItem } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
@@ -15,7 +14,7 @@ const UserMenuAvatar: React.FC = () => {
   const history = useHistory();
 
   const getAvatarLetters = () => {
-    const token = Cookies.get('token');
+    const token = localStorage.getItem('token');
 
     if (token) {
       const tokenDecoded: jwtFormat = jwt_decode(token);
@@ -35,7 +34,7 @@ const UserMenuAvatar: React.FC = () => {
   };
 
   const logoutUser = () => {
-    Cookies.remove('token');
+    localStorage.removeItem('token');
     history.push('/');
   };
 

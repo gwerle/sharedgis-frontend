@@ -30,14 +30,11 @@ export default function SidewalkForm({
     event: React.ChangeEvent<{ value: unknown }>,
     form: string,
   ) => {
-    setFormValues((state: any) => {
-      return {
-        ...state,
-        [form]: event?.target?.value as string,
-      };
+    setFormValues({
+      ...formValues,
+      [form]: event?.target?.value as string,
     });
   };
-
   return (
     <form className={classes.root} noValidate autoComplete="off">
       <div>
@@ -125,8 +122,8 @@ export default function SidewalkForm({
         </FormControl>
         <TextField
           label="Cor do Pavimento Tátil"
-          value={formValues.tactilePavingColor}
-          onChange={event => handleChangeSelect(event, 'tactilePavingColor')}
+          value={formValues.tacticlePavingColor}
+          onChange={event => handleChangeSelect(event, 'tacticlePavingColor')}
         />
       </div>
       <div>

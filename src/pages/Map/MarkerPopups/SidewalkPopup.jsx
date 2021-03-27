@@ -17,7 +17,7 @@ export default function SidewalkPopup({ data }) {
         Situação do Terreno:{' '}
         {formatSurfaceSituationEnum(data.surface_situation)}
       </div>
-      <div>Largura: {formatInclinationEnum(data.width)}m</div>
+      <div>Largura: {data.width}m</div>
       <div>
         Possui pavimento tátil: {formatBoolean(data.have_tacticle_paving)}
       </div>
