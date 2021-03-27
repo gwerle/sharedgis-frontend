@@ -9,9 +9,9 @@ import Map from '../pages/Map/Map';
 const Routes: React.FC = () => (
   <Switch>
     <Route path="/" exact component={Login} />
-    <Route path="/create-account" exact component={CreateAccount} />
-    <Route path="/dashboard" exact component={Dashboard} />
-    <Route path="/map/:id" exact component={Map} />
+    <Route path="/create-account" component={CreateAccount} />
+    <Route path="/dashboard" component={Dashboard} />
+    <Route path="/map/:id" component={Map} />
   </Switch>
 );
 
