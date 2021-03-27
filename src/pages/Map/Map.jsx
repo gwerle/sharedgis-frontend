@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+/* eslint-disable */
+import React, { useState } from 'react';
 import {
   MapContainer,
   TileLayer,
@@ -64,8 +65,6 @@ function LocationMarkers({ setCurrentMarker, setModalSelectAtributeVisible }) {
 }
 
 function LocationLines({ lines, setLines }) {
-  const [, , mapId] = window.location.pathname.split('/');
-
   useMapEvents({
     click(e) {
       const currLines = lines;
@@ -143,7 +142,7 @@ export default function Map() {
 
   React.useEffect(() => {
     mapLayers.forEach(item => getGeomByLayer(item.id));
-  }, []);
+  }, [getGeomByLayer]);
 
   const getGeomByLayer = layer => {
     const [, , map_id] = window.location.pathname.split('/');

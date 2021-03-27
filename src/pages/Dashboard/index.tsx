@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React from 'react';
 import UserMenuAvatar from '../Common/UserMenuAvatar';
 import MapCard from '../Common/MapCard';

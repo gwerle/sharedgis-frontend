@@ -7,11 +7,7 @@ import {
   MenuItem,
 } from '@material-ui/core';
 import { useStyles } from './styles';
-import {
-  surfaceSituationOptions,
-  bicyclePathOptions,
-  booleanOptions,
-} from '../../../config/constants';
+import { booleanOptions } from '../../../config/constants';
 
 interface TrafficLightFormProps {
   formValues: any;

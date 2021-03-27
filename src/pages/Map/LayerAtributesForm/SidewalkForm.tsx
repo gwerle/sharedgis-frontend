@@ -9,7 +9,6 @@ import {
 import { useStyles } from './styles';
 import {
   surfaceSituationOptions,
-  bicyclePathOptions,
   surfaceOptions,
   booleanOptions,
   goodMediumBadOptions,

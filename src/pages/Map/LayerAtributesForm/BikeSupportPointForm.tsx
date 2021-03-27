@@ -7,10 +7,7 @@ import {
   MenuItem,
 } from '@material-ui/core';
 import { useStyles } from './styles';
-import {
-  goodMediumBadOptions,
-  booleanOptions,
-} from '../../../config/constants';
+import { booleanOptions } from '../../../config/constants';
 
 interface BikeSupportPointFormProps {
   formValues: any;

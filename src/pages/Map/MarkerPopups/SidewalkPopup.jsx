@@ -2,7 +2,6 @@ import React from 'react';
 import {
   formatSurfaceSituationEnum,
   formatBoolean,
-  formatInclinationEnum,
   formatSurface,
   formatBikeRacksConditionEnum,
 } from '../../../utils/enumUtils';

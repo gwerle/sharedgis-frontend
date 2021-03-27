@@ -3,7 +3,6 @@ import { TextField, Button, Link } from '@material-ui/core';
 import { ContainerLogin, BorderedDiv } from '../Common/styles';
 import { LeftDiv, RightDiv } from './styles';
 import api from '../../services/api';
-import { useHistory } from 'react-router-dom';
 import { useDispatch } from '../../store';
 import { showSnackbar } from '../../store/modules/Snackbar/actions';
 
@@ -31,7 +30,7 @@ const Login: React.FC = () => {
     if (token) {
       window.location.href = '/dashboard';
     }
-  });
+  }, []);
 
   return (
     <ContainerLogin>

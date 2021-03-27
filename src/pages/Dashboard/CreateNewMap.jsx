@@ -1,4 +1,4 @@
-import { Card, CardContent, Icon, Typography } from '@material-ui/core';
+import { Card, CardContent, Typography } from '@material-ui/core';
 import React from 'react';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 
