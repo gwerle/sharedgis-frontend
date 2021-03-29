@@ -28,26 +28,34 @@ export default function ShareModal({
       >
         <DialogTitle id="form-dialog-title">Criar novo mapa</DialogTitle>
         <DialogContent>
-          <TextField
-            value={mapName}
-            autoFocus
-            margin="dense"
-            id="name"
-            label="Nome do Mapa"
-            type="email"
-            fullWidth
-            onChange={event => setMapName(event.currentTarget.value)}
-          />
-          <TextField
-            value={mapDescription}
-            autoFocus
-            margin="dense"
-            id="name"
-            label="Descrição"
-            type="email"
-            fullWidth
-            onChange={event => setMapDescription(event.currentTarget.value)}
-          />
+          <form
+            onSubmit={event => {
+              event.preventDefault();
+              confirmCreateMap();
+            }}
+            noValidate
+            autoComplete="off"
+          >
+            <TextField
+              value={mapName}
+              autoFocus
+              margin="dense"
+              id="name"
+              label="Nome do Mapa"
+              type="email"
+              fullWidth
+              onChange={event => setMapName(event.currentTarget.value)}
+            />
+            <TextField
+              value={mapDescription}
+              margin="dense"
+              id="name"
+              label="Descrição"
+              type="email"
+              fullWidth
+              onChange={event => setMapDescription(event.currentTarget.value)}
+            />
+          </form>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">
