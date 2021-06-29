@@ -7,6 +7,10 @@ export const LeftDiv = styled.div`
   background: url(${loginBackground}) no-repeat;
   opacity: 0.5;
   border-radius: 20px 0 0 20px;
+
+  @media(max-width: 800px) {
+    display: none;
+  }
 `;
 
 export const RightDiv = styled.div`
@@ -17,4 +21,8 @@ export const RightDiv = styled.div`
   flex-wrap: wrap;
   flex-direction: column;
   justify-content: center;
+
+  @media(max-width: 800px) {
+    width: 100%;
+  }
 `;

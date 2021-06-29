@@ -71,7 +71,7 @@ const Dashboard: React.FC = () => {
       <div>
         <UserMenuAvatar />
       </div>
-      <div style={{ display: 'flex', margin: '8% 5%' }}>
+      <div style={{ display: 'flex', margin: '8% 5%', flexWrap: 'wrap' }}>
         {maps.map((map: Map) => {
           return <MapCard key={map.id} map={map} />;
         })}

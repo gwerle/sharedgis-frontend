@@ -12,6 +12,15 @@ import BicyclePathIcon from '../../icons/Lines/components/BicyclePath';
 import TrainLineIcon from '../../icons/Lines/components/TrainLine';
 import SidewalkIcon from '../../icons/Lines/components/Sidewalk';
 import RoadsIcon from '../../icons/Lines/components/Roads';
+import styled from 'styled-components'
+
+const Container = styled.div`
+  margin: 20px 0 20px 20px;
+
+  @media(max-width: 800px) {
+    display: none;
+  }
+`
 
 export default function LayersSimbology({
   points,
@@ -90,7 +99,7 @@ export default function LayersSimbology({
   };
 
   return (
-    <div style={{ margin: '20px 0 20px 20px' }}>
+    <Container>
       <FormControl>
         {Object.keys(points).map(layer => {
           return (
@@ -133,6 +142,6 @@ export default function LayersSimbology({
           );
         })}
       </FormControl>
-    </div>
+    </Container>
   );
 }
